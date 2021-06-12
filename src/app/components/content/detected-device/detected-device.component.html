@@ -1,0 +1,81 @@
+
+<div class="container" style="padding-top: 10%">
+    <form #f=ngForm (ngSubmit)="onSubmit(f)">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Position</label>
+        <input
+          type="text"
+          name="position"
+          #position="ngModel"
+          ngModel
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+        />
+        <small id="emailHelp" class="form-text text-muted"
+          >Ordonner les appareils.</small
+        >
+      </div>
+  
+      <div class="form-group">
+        <label for="exampleInputEmail1">Nom 1</label>
+        <input
+          type="text"
+          name="name1"
+          #name1="ngModel"
+          ngModel
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+        />
+        <small id="emailHelp" class="form-text text-muted">Inserer le nom.</small>
+      </div>
+  
+      <div class="form-group">
+        <label for="exampleInputEmail1">Nom 2</label>
+        <input
+          type="text"
+          name="name2"
+          #name2="ngModel"
+          ngModel
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+        />
+        <small id="emailHelp" class="form-text text-muted">Inserer le nom.</small>
+      </div>
+  
+      <div class="form-group form-check">
+        <input type="checkbox" name="IncludeAllOff"
+        #IncludeAllOff="ngModel"
+        ngModel class="form-check-input" id="exampleCheck1" />
+        <label class="form-check-label" for="exampleCheck1"
+          >Include in 'ALL OFF'.</label
+        >
+      </div>
+  
+      <div class="form-group form-check">
+        <input type="checkbox" name="ProtectedFromPoweringOn"
+        #ProtectedFromPoweringOn="ngModel"
+        ngModel class="form-check-input" id="exampleCheck1" />
+        <label class="form-check-label" for="exampleCheck1"
+          >Protect from powering on.</label
+        >
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" name="ProtectedFromPoweringOff"
+        #ProtectedFromPoweringOff="ngModel"
+        ngModel class="form-check-input" id="exampleCheck1" />
+        <label class="form-check-label" for="exampleCheck1"
+          >Protect from powering off.</label
+        >
+      </div>
+      <button type="submit" (click)="back()" class="btn btn-secondary" style="width: 100%">
+        Retour
+      </button>
+      <button type="submit" class="btn btn-primary" style="width: 100%">
+        Enregistrer
+      </button>
+    </form>
+  </div>
+  

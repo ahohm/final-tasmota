@@ -1,0 +1,68 @@
+<div style="justify-content: center; margin: 1%">
+
+
+    <table class="table table-striped border border-primary">
+      
+      <tbody>
+        <tr>
+          <th scope="row">Hostname</th>
+          <td>{{devices.hn}}</td>
+        </tr>
+        <tr>
+          <th scope="row">IP</th>
+          <td>{{devices.ip}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Stat</th>
+          <td>
+            <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input bg-success"
+              id="stateSwitch"
+              [checked]=devices.state
+            />
+            <label class="custom-control-label" for="stateSwitch"></label>
+          </div>
+        </td>
+        </tr>
+        <tr>
+          <th scope="row"><i class="fas fa-signal"></i></th>
+          <td>{{devices2.Wifi.Signal}} db</td>
+        </tr>
+        <tr>
+          <th scope="row">Version</th>
+          <td>{{devices.sw}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Mac</th>
+          <td>{{devices.mac}}</td>
+        </tr>
+        <tr>
+          <th scope="row">MQTT</th>
+          <td>{{devices2.MqttCount}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Sleep</th>
+          <td>{{devices2.Sleep}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Runtime</th>
+          <td>{{devices2.UptimeSec}}</td>
+        </tr>
+        <tr>
+          <th>-</th>
+          <td>
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+              <button class="btn btn-success float-right"><a href="#"></a><i class="fas fa-cogs"></i></button>
+              <button class="btn btn-success float-right"><a routerLink="/gauge" routerLinkActive="router-link-active"  href="#"><i class="fas fa-tachometer-alt"></i></a></button>
+              <button class="btn btn-danger float-right"><a href="#"></a><i class="fas fa-trash"></i></button>
+              <button class="btn btn-success float-right"><a href="#"></a><i class="fas fa-sync-alt"></i></button>
+            </div>  
+          </td>
+        </tr>
+  
+      </tbody>
+    </table>
+  </div>
+  

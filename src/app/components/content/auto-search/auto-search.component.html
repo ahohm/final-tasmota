@@ -1,0 +1,158 @@
+<div class="container" style="padding-top: 10%">
+    <p i18n="Automatic search">RECHERCHE AUTOMATIQUE</p>
+  
+    <form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f)" >
+
+      
+
+      <div class="form-group">
+        <label for="fromIp">A partie de l'IP</label>
+        <input
+          type="text"
+          minlength="7"
+          maxlength="15"
+          size="15"
+          placeholder="xxx.xxx.xxx.xxx"
+          pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+          class="form-control"
+          name="fromIp"
+          id="fromIp"
+          ngModel
+          required
+          #fromIp="ngModel"
+          aria-describedby="emailHelp"
+        />
+        <small id="fromIpHelp" class="form-text text-muted"
+          >IP de démarrage de scan automatique.
+          <div
+        *ngIf="fromIp.invalid && (fromIp.dirty || fromIp.touched)"
+        class="alert"
+      >
+        <div style="color: red;" *ngIf="fromIp.errors?.required"><small>IP address is required</small></div>
+
+        <div style="color: red;" *ngIf="fromIp.errors?.pattern"><small>Please type a Valid ip address</small></div>
+      </div>
+          </small
+        >
+      </div>
+      <div class="form-group">
+        <label for="toIp">Jusqu'à l'IP</label>
+        <input
+          type="text"
+          minlength="7"
+          maxlength="15"
+          size="15"
+          placeholder="xxx.xxx.xxx.xxx"
+          pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+          class="form-control"
+          name="toIp"
+          id="toIp"
+          ngModel
+          required
+          #toIp="ngModel"
+          aria-describedby="toIpHelp"
+        />
+        <small id="toIpHelp" class="form-text text-muted"
+          >IP de fin de scan automatique.
+          <div
+        *ngIf="toIp.invalid && (toIp.dirty || toIp.touched)"
+        class="alert"
+      >
+        <div style="color: red;" *ngIf="toIp.errors?.required"><small>IP address is required</small></div>
+
+        <div style="color: red;" *ngIf="toIp.errors?.pattern"><small>Please type a Valid ip address</small></div>
+      </div>
+
+          </small
+        >
+      </div>
+      <div class="form-group">
+        <label for="deviceUnername">Nom d'utilisateur de l'appareil</label>
+        <input
+          type="text"
+          placeholder="username"
+          class="form-control"
+          name="deviceUnername"
+          id="deviceUnername"
+          ngModel
+          required
+          #deviceUnername="ngModel"
+          aria-describedby="toIpHelp"
+        />
+        <small id="deviceUnernameHelp" class="form-text text-muted"
+          >Nom de l'utilisateur admin par defaut.
+          <div
+        *ngIf="deviceUnername.invalid && (deviceUnername.dirty || deviceUnername.touched)"
+        class="alert"
+      >
+        <div style="color: red;" *ngIf="toIp.errors?.pattern"><small>change it with what u want</small></div>
+      </div>
+          </small
+        >
+      </div>
+  
+      <div class="form-group">
+        <label for="devicePassword">Mot de passde l'appareil</label>
+  
+        <div class="input-group mb-3">
+          <input
+          [type]="fieldTextType ? 'text' : 'password'"
+          class="form-control"
+          name="devicePassword"
+          placeholder="*********"
+          id="devicePassword"
+          ngModel
+          required
+          #devicePassword="ngModel"
+          aria-describedby="devicePasswordHelp"
+        />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="button-addon2"
+              (click)="toggleFieldTextType()"
+            >
+            <i class="fa" [ngClass]="{
+              'fa-eye-slash': !fieldTextType,
+              'fa-eye': fieldTextType
+            }" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+  
+        <small id="devicePasswordHelp" class="form-text text-muted"
+          >Si vous souahtiez un mot de pass pour le site, entrez le</small
+        >
+      </div>
+  
+      <button type="submit" class="btn btn-primary" style="width: 100%">
+        Rechercher
+      </button>
+    </form>
+    
+  
+    <div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">IP</th>
+            <th scope="col">Device name</th>
+            <th scope="col">-</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let device of devices">
+            <th scope="row">{{device.StatusNET.IPAddress}}</th>
+            <td>{{device.Status.DeviceName}}</td>
+            <td>
+              <button class="btn btn-success float-right" (click)="addDevice(device)" ><a  href="#"></a><i class="fas fa-plus"></i></button>
+            </td>
+          </tr>
+  
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

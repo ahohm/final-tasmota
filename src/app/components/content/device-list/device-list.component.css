@@ -1,0 +1,23 @@
+.custom-control-input:focus ~ .custom-control-label::before {
+    /* when the button is toggled off 
+  it is still in focus and a rgb(131, 211, 148) border will appear */
+    border-color: rgb(131, 211, 148) !important;
+    /* box shadow is blue by default
+  but we do not want any shadow hence we have set 
+  all the values as 0 */
+    box-shadow: 0 0 0 0rem rgba(0, 0, 0, 0) !important;
+  }
+
+  /*sets the background color of
+  switch to rgb(131, 211, 148) when it is checked*/
+  .custom-control-input:checked ~ .custom-control-label::before {
+    border-color: rgb(131, 211, 148) !important;
+    background-color: rgb(131, 211, 148) !important;
+  }
+
+  /*sets the background color of
+  switch to rgb(131, 211, 148) when it is active*/
+  .custom-control-input:active ~ .custom-control-label::before {
+    background-color: rgb(131, 211, 148) !important;
+    border-color: rgb(131, 211, 148) !important;
+  }

@@ -1,0 +1,107 @@
+<div class="row" style="margin: 10%">
+    <div class="col-8">
+      <div class="container mb-4 pb-3">
+        <div class="row">
+          <div class="">
+            <div>
+              <h3>Thermostat</h3>
+            </div>
+            <div>
+              <h6>{{ device.dn }} /{{ device.ip }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-4">
+      <div class="container mb-4 pb-3">
+        <div class="row">
+          <div class="">
+            <div class="form-check">
+              <label class="form-check-label form-check-toggle">
+                <input
+                  class="form-check-input bg-success"
+                  id="power"
+                  #power
+                  type="checkbox"
+                  [checked]="data.power"
+                  (change)="onChagePowerState(power.checked)"
+                />
+                <span></span>
+              </label>
+              <div *ngIf="data.power; else off">ON</div>
+              <ng-template #off> <div>OFF</div></ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="" class="bg-light absoluteCenteredDiv0">
+    <div class="absoluteCenteredDiv1">
+  
+      <ngx-gauge [value]="50"  [thresholds]="thresholdConfig" [value]="data.DHT11.Temperature"
+      [label]="lgaugeLabel"
+      [append]="lgaugeAppendText">
+        <ngx-gauge-append>
+            <!-- custom append text or HTML goes here -->
+            {{lgaugeAppendText}}
+        </ngx-gauge-append>
+        <ngx-gauge-label>
+            <!-- custom label text or HTML goes here -->
+            {{lgaugeLabel}}
+        </ngx-gauge-label>
+        <ngx-gauge-prepend>
+            <!-- custom prepend text or HTML goes here -->
+        </ngx-gauge-prepend>
+        <ngx-gauge-value>
+           {{data.DHT11.Temperature}}
+        </ngx-gauge-value>
+    </ngx-gauge>
+  
+     
+  
+      <h3>Temperature mesurée</h3>
+    </div>
+  
+    <div class="absoluteCenteredDiv1">
+      <jqxKnob
+        #myKnob
+        (onChange)="onChange($event)"
+        [width]="200"
+        [height]="200"
+        [value]="60"
+        [min]="0"
+        [max]="100"
+        [startAngle]="120"
+        [endAngle]="420"
+        [snapToStep]="true"
+        [rotation]="'clockwise'"
+        [style]="style"
+        [marks]="marks"
+        [labels]="labels1"
+        [progressBar]="progressBar"
+        [pointer]="pointer"
+      >
+      </jqxKnob>
+      <jqxNumberInput
+        #myNumberInput
+        (mousedown)="onMouseDown($event)"
+        (keyup)="onKeyup()"
+        (onValueChanged)="onValueChanged()"
+        [width]="60"
+        [height]="40"
+        [decimal]="60"
+        [min]="0"
+        [max]="100"
+        [textAlign]="'center'"
+        [decimalDigits]="1"
+        [inputMode]="'simple'"
+      >
+      </jqxNumberInput>
+  
+      <h3>Temperature désirée</h3>
+    </div>
+  </div>

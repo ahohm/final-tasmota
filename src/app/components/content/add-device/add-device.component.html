@@ -1,0 +1,101 @@
+<div class="container" style="padding-top: 10%">
+    <p>AJOUTER UN APPAREIL</p>
+  
+    <form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f)">
+      <div class="form-group">
+        <label for="exampleInpuName">Adresse IP de l'appareil.</label>
+  
+  
+        <input
+          type="text"
+          minlength="7"
+          maxlength="15"
+          size="15"
+          placeholder="xxx.xxx.xxx.xxx"
+          pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+          class="form-control"
+          name="fromIp"
+          ngModel
+          required
+          #fromIp="ngModel"
+          id="exampleInpuName"
+        />
+        <small id="emailHelp" class="form-text text-muted"
+          >Adress IP de l'appareil à ajouter.
+          <div
+          *ngIf="fromIp.invalid && (fromIp.dirty || fromIp.touched)"
+          class="alert"
+        >
+          <div style="color: red;" *ngIf="fromIp.errors?.required"><small>IP address is required</small></div>
+  
+          <div style="color: red;" *ngIf="fromIp.errors?.pattern"><small>Please type a Valid ip address</small></div>
+        </div>
+        </small>
+        
+      </div>
+  
+      <div>
+        <div class="form-group">
+          <label for="exampleInputPassword1"
+            >Non d'utilisateur de l'appareil</label
+          >
+          <input
+            type="text"
+            placeholder="username"
+            class="form-control"
+            name="deviceUnername"
+            ngModel
+            required
+            #deviceUnername="ngModel"
+            id="exampleInputPassword1"
+          />
+          <small id="emailHelp" class="form-text text-muted"
+            >Nom d'utilisateur du site par defaut.</small
+          >
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Mot de passe de l'appareil</label>
+          <div class="input-group mb-3">
+            <input
+              [type]="fieldTextType ? 'text' : 'password'"
+              class="form-control"
+              name="devicePassword"
+              placeholder="*********"
+              id="devicePassword"
+              ngModel
+              required
+              #devicePassword="ngModel"
+              aria-describedby="devicePasswordHelp"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+                (click)="toggleFieldTextType()"
+              >
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-eye-slash': !fieldTextType,
+                    'fa-eye': fieldTextType
+                  }"
+                  aria-hidden="true"
+                ></i>
+              </button>
+            </div>
+          </div>
+          <small id="emailHelp" class="form-text text-muted"
+            >Si vous souahtiez un mot de pass pour le site, entrez le ici.
+            Attention le mot de passe non crypté est enregistré dans le ficjier
+            decives.csv.</small
+          >
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" style="width: 100%">
+        Ajouter
+      </button>
+    </form>
+  </div>
+  
