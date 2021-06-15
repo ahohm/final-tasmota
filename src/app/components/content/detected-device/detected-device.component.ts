@@ -55,7 +55,7 @@ export class DetectedDeviceComponent implements OnInit {
     this.deviceToSave.DeviceName= this.device.Status.DeviceName
    
     window.localStorage.removeItem('device')
-    console.log(this.deviceToSave)
+    console.log("eeeeeeee"+ JSON.stringify(this.deviceToSave))
     }else{
       this.location.back()
     }
@@ -71,15 +71,15 @@ export class DetectedDeviceComponent implements OnInit {
     this.deviceToSave.ProtectedFromPoweringOn = ProtectedFromPoweringOn;
     this.deviceToSave.ProtectedFromPoweringOff = ProtectedFromPoweringOff;
 
-    console.log(this.deviceToSave)
+    console.log(JSON.stringify(this.deviceToSave))
 
-    this.deviceService.saveDevice(this.deviceToSave).pipe().subscribe(
+    this.deviceService.saveDevice(JSON.stringify(this.deviceToSave)).pipe().subscribe(
       data => {
         console.log(data)
       },
       err => {
         console.log(err)
-        this.toastr.error('Failed', err.message);
+        this.toastr.error('Failed', err.error.message);
       }
     )
   }

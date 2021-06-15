@@ -25,9 +25,9 @@ export class DeviceService {
   }
 
   saveDevice(value: any): Observable<any> {
-    return this.http.post(AUTH_API+'/devices/add' , {
+    return this.http.post(AUTH_API+'/devices/add' , 
       value
-    }, httpOptions);
+    , httpOptions);
   }
   getAllDevice(): Observable<any> {
     return this.http.get(AUTH_API+'/devices', httpOptions);

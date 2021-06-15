@@ -112,6 +112,7 @@ addDevice(device: any){
   // TODO ADD SERVICE
   console.log("ddd")
   console.log("device ::: "+device.StatusNET.IPAddress)
+  console.log("device : "+JSON.stringify(device))
   window.localStorage.setItem('device', JSON.stringify(device))
   this.router.navigate(['/detected-device'])
 }
