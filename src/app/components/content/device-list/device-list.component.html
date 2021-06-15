@@ -1,4 +1,4 @@
-<div style="justify-content: center; margin: 1%">
+<div style="justify-content: center; margin: 1%" *ngFor="let data of datas">
 
 
     <table class="table table-striped border border-primary">
@@ -6,11 +6,11 @@
       <tbody>
         <tr>
           <th scope="row">Hostname</th>
-          <td>{{devices.hn}}</td>
+          <td>{{data.HostName}}</td>
         </tr>
         <tr>
           <th scope="row">IP</th>
-          <td>{{devices.ip}}</td>
+          <td>{{data.IPAddress}}</td>
         </tr>
         <tr>
           <th scope="row">Stat</th>

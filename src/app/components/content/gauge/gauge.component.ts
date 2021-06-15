@@ -38,6 +38,8 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
     ip: '----',
   };
 
+  max:number = 100 ;
+
   greeting: any;
   name1!: string;
 
@@ -57,7 +59,6 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // --------------------------------------------------
 
-  // --------------------------------------------------
 
   @ViewChild('myKnob', { static: false })
   myKnob!: jqxKnobComponent;
@@ -114,6 +115,7 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.myNumberInput.val(event.args.value);
     console.log(event.args.value);
+    this.max = event.args.value
   }
   onMouseDown(event: any): void {
     event.stopPropagation();
@@ -247,18 +249,35 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
             this.device.dn = val.dn;
             this.device.ip = val.ip;
           }else{
-            //this.needleValue = val.DHT11.Temperature;
-            //this.options.arcDelimiters = [val.DHT11.Temperature];
-            //this.bottomLabel = ''+val.DHT11.Temperature;
-            let temp = val.DHT11.Temperature;
-            this.data.DHT11.Temperature = val.DHT11.Temperature;
-            this.myGauge.value(temp);
+            if(typeof(val.DHT11.Temperature) === "number"){
+              this.limit(val.DHT11.Temperature)
+              this.data.DHT11.Temperature = val.DHT11.Temperature;
+              this.myGauge.value(this.data.DHT11.Temperature);
+              
+              if(this.data.DHT11.Temperature>this.max && this.data.power === true){
+                console.log("tooogle")
+                this.deviceSrvice
+                .changeState('TOGGLE')
+                .pipe()
+                .subscribe((data) => console.log("switch"+data));
+              }
+            }
           }
         }
   
         console.log();
       });
 
+  }
+
+  limit(temp: number){
+    if(temp>this.max){
+      console.log("tooogle")
+      this.deviceSrvice
+      .changeState('TOGGLE')
+      .pipe()
+      .subscribe((data) => console.log(data));
+    }
   }
 
   //-------------------------

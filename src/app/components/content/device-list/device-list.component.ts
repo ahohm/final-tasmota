@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DeviceService } from 'src/app/_services/device.service';
 import { WebSocketAPI } from 'src/app/_socket/WebSocketAPI ';
 
 @Component({
@@ -25,11 +26,15 @@ export class DeviceListComponent implements OnInit, OnDestroy {
     Sleep: '',
   };
 
+  datas: any =[];
+
+  power:any;
+
 
   webSocketAPI!: WebSocketAPI;
   greeting: any;
   name!: string;
-  constructor() {}
+  constructor(private deviceService: DeviceService) {}
   ngOnDestroy(): void {
     this.disconnect();
   }
@@ -37,6 +42,13 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.webSocketAPI = new WebSocketAPI();
     this.connect();
+    this.deviceService.getAllDevice().pipe().subscribe(
+      data =>{
+        console.log(data);
+        this.datas =data
+      },err => {
+        console.log(err);
+      }) 
   }
 
   connect() {
@@ -45,8 +57,16 @@ export class DeviceListComponent implements OnInit, OnDestroy {
       if(val.ip != null){
         this.devices = val;
       }else{
-        this.devices2 = val;
+        if(typeof(val.POWER1) === "string"  && val.POWER1 === "OFF"){
+            this.power=false
+        }else if(typeof(val.POWER1) === "string"  && val.POWER1 === "OONN"){
+          this.power=true
+        }else{
+          this.devices2 = val;
+        }
+
       }
+      
       
       
       
