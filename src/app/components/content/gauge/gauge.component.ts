@@ -231,14 +231,29 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((data) => console.log(data));
   }
 
-  ngOnInit(): void {
+  d: any = {};
+
+  ngOnInit() {
     this.webSocketAPI = new WebSocketAPI();
-    this.connect();
+      if(window.localStorage.getItem('device')!= undefined){
+      let x:any = window.localStorage.getItem('device')
+      this.d = JSON.parse(x)
+      console.log("eeeeeeee"+ JSON.stringify(this.d))
+
+   
+      this.connect(this.d.Topic);
+      window.localStorage.removeItem('device')
+
+      }else{
+      }
+
+  
   }
 
-  connect() {
+
+  connect(topic: any) {
   
-      return this.webSocketAPI._connect((val: any) => {
+      return this.webSocketAPI._connect(topic,(val: any) => {
         if(typeof(val.POWER1) === "string"  && val.POWER1 === "ON"){
           this.data.power = true;
         }else if(typeof(val.POWER1) === "string"  && val.POWER1 === "OFF"){
@@ -265,7 +280,6 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
   
-        console.log();
       });
 
   }

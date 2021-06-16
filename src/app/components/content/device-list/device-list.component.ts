@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DeviceService } from 'src/app/_services/device.service';
 import { WebSocketAPI } from 'src/app/_socket/WebSocketAPI ';
 
@@ -34,29 +35,31 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   webSocketAPI!: WebSocketAPI;
   greeting: any;
   name!: string;
-  constructor(private deviceService: DeviceService) {}
+  constructor(private deviceService: DeviceService, private router: Router) {}
   ngOnDestroy(): void {
     this.disconnect();
   }
 
   ngOnInit() {
     this.webSocketAPI = new WebSocketAPI();
-    this.connect();
     this.deviceService.getAllDevice().pipe().subscribe(
       data =>{
-        console.log(data);
         this.datas =data
+        data.forEach((_element:any) => {
+          this.connect(_element.Topic);
+        });
+      
       },err => {
         console.log(err);
       }) 
   }
 
-  connect() {
-    return this.webSocketAPI._connect((val: any) => {
-      
-      if(val.ip != null){
+  connect(topic: any) {
+    return this.webSocketAPI._connect(topic, (val: any) => {
+
+   if(val.ip != null){
         this.devices = val;
-      }else{
+   }else{
         if(typeof(val.POWER1) === "string"  && val.POWER1 === "OFF"){
             this.power=false
         }else if(typeof(val.POWER1) === "string"  && val.POWER1 === "OONN"){
@@ -65,12 +68,8 @@ export class DeviceListComponent implements OnInit, OnDestroy {
           this.devices2 = val;
         }
 
-      }
-      
-      
-      
-      
-      console.log(val)
+   }
+    
     });
   }
 
@@ -85,4 +84,9 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   handleMessage(message: any) {
     this.greeting = message;
   }
+
+  goToGauge(data: any){
+    window.localStorage.setItem('device', JSON.stringify(data))
+    this.router.navigate(['/gauge'])
+    }
 }

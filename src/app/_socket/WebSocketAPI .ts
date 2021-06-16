@@ -6,24 +6,26 @@ import { DeviceListComponent } from '../components/content/device-list/device-li
 
 export class WebSocketAPI {
     webSocketEndPoint: string = 'http://158.69.113.195:8080/websocket-example';
-    topic: string = "/topic/user";
+    topic: string = "/topic/";
     stompClient: any;
+    
     //appComponent: DeviceListComponent;
     constructor(){
         
     }
-    _connect(callback: any) {
+    _connect(topic: any, callback: any) {
         console.log("Initialize WebSocket Connection");
         let ws = new SockJS(this.webSocketEndPoint);
+        // TODO 
         this.stompClient = Stomp.over(ws);
         const _this = this;
         _this.stompClient.connect({}, function (frame: any) {
-            _this.stompClient.subscribe(_this.topic, function (sdkEvent: any) {
+            _this.stompClient.subscribe(_this.topic + topic, function (sdkEvent: any) {
                 
                 callback(_this.onMessageReceived(sdkEvent))
             });
             //_this.stompClient.reconnect_delay = 2000;
-        }, this.errorCallBack);
+        }, (err : any) => this.errorCallBack(topic, err));
     };
 
     _disconnect() {
@@ -34,10 +36,10 @@ export class WebSocketAPI {
     }
 
     // on error, schedule a reconnection attempt
-    errorCallBack(error: any) {
+    errorCallBack(topic:any, error: any) {
         console.log("errorCallBack -> " + error)
         setTimeout(() => {
-            this._connect((val: any) => {
+            this._connect(topic, (val: any) => {
                 
               });
         }, 5000);

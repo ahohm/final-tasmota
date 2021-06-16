@@ -36,7 +36,7 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
     hn: '----',
     ip: '----',
   };
-
+  d: any = {};
   public canvasWidth = 300;
   public needleValue: number = 0;
   public centralLabel = '';
@@ -72,13 +72,22 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.webSocketAPI = new WebSocketAPI();
-    this.connect();
+    if(window.localStorage.getItem('device')!= undefined){
+      let x:any = window.localStorage.getItem('device')
+      this.d = JSON.parse(x)
+      console.log("eeeeeeee"+ JSON.stringify(this.d))
 
+      this.webSocketAPI = new WebSocketAPI();
+      this.connect(this.d.Topic);
+  
+      }else{
+      }
+
+  
   }
 
-  connect() {
-    return this.webSocketAPI._connect((val: any) => {
+  connect(topic: any ) {
+    return this.webSocketAPI._connect(topic, (val: any) => {
       if(typeof(val.POWER1) === "string"  && val.POWER1 === "ON"){
         this.active = true;
       }else if(typeof(val.POWER1) === "string"  && val.POWER1 === "OFF"){
