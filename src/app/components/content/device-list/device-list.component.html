@@ -16,11 +16,11 @@
           <th scope="row">Stat</th>
           <td>
             <div class="custom-control custom-switch">
-            <input
+            <input 
               type="checkbox"
               class="custom-control-input bg-success"
               id="stateSwitch"
-              [checked]=devices.state
+              [checked]=data.devices?.power
             />
             <label class="custom-control-label" for="stateSwitch"></label>
           </div>
@@ -28,11 +28,11 @@
         </tr>
         <tr>
           <th scope="row"><i class="fas fa-signal"></i></th>
-          <td>{{devices2.Wifi.Signal}} db</td>
+          <td>{{data.devices2?.Wifi.Signal}} db</td>
         </tr>
         <tr>
           <th scope="row">Version</th>
-          <td>{{devices.sw}}</td>
+          <td>{{data.devices?.sw}}</td>
         </tr>
         <tr>
           <th scope="row">Mac</th>
@@ -40,15 +40,15 @@
         </tr>
         <tr>
           <th scope="row">MQTT</th>
-          <td>{{devices2.MqttCount}}</td>
+          <td>{{data.devices2?.MqttCount}}</td>
         </tr>
         <tr>
           <th scope="row">Sleep</th>
-          <td>{{devices2.Sleep}}</td>
+          <td>{{data.devices2?.Sleep}}</td>
         </tr>
         <tr>
           <th scope="row">Runtime</th>
-          <td>{{devices2.UptimeSec}}</td>
+          <td>{{data.devices2?.UptimeSec}}</td>
         </tr>
         <tr>
           <th>-</th>

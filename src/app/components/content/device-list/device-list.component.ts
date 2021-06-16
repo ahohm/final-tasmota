@@ -44,30 +44,42 @@ export class DeviceListComponent implements OnInit, OnDestroy {
     this.deviceService.getAllDevice().pipe().subscribe(
       data =>{
         this.datas = data
+        console.log(this.datas)
+        
         for (let index = 0; index < this.datas.length; index++) {
-          this.datas[index].callback =  this.connect(this.datas[index]);
+          this.datas[index].callback =  this.connect(index, this.datas[index]);
         }
       },err => {
         console.log(err);
       }) 
   }
 
-  connect(element: any) {
+  connect(index: any, element: any):any {
     return this.webSocketAPI._connect(element.Topic, (val: any) => {
+      console.log(val)
+      let dd = this.datas[index];
 
    if(val.ip != null){
-    element.devices = val;
+      console.log("ip")
+    dd.devices = val;
    }else{
-        if(typeof(val.POWER1) === "string"  && val.POWER1 === "OFF"){
-          element.power=false
-        }else if(typeof(val.POWER1) === "string"  && val.POWER1 === "OONN"){
-          element.power=true
-        }else{
-          element.devices2 = val;
-        }
-
-   }
+    console.log("POWER ON")
     
+    if(typeof(val.POWER1) === "string"  && val.POWER1 === "OFF"){
+      console.log("POWER OFF")
+       dd.power=false
+        }else if(typeof(val.POWER1) === "string"  && val.POWER1 === "ON"){
+          console.log("POWER ON")
+                    dd.power=true
+        }else{
+          console.log("DEVICES")
+          dd.devices2 = val;
+        }
+   }
+   this.datas[index] = dd;
+   console.log("data :" + JSON.stringify(dd))
+
+    console.log("list of data :" + JSON.stringify(this.datas ))
     });
   }
 

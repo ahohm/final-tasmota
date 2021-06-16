@@ -138,7 +138,7 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('gaugeValue', { static: false })
   gaugeValue!: ElementRef;
   ngAfterViewInit(): void {
-    this.myGauge.value(10);
+    this.myGauge?.value(10);
   }
   ticksMinor: any = { interval: 5, size: '5%' };
   ticksMajor: any = { interval: 10, size: '9%' };
