@@ -24,6 +24,8 @@ import { DeviceListComponent } from '../device-list/device-list.component';
 })
 export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
   webSocketAPI!: WebSocketAPI;
+  d: any = {};
+  
   data: any = {
     DHT11: {
       Temperature: '0',
@@ -231,8 +233,6 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((data) => console.log(data));
   }
 
-  d: any = {};
-
   ngOnInit() {
     this.webSocketAPI = new WebSocketAPI();
       if(window.localStorage.getItem('device')!= undefined){
@@ -246,7 +246,6 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }else{
       }
-
   
   }
 
