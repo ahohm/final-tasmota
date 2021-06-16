@@ -44,9 +44,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
     this.webSocketAPI.connecting(() => {
       this.deviceService.getAllDevice().pipe().subscribe(
         data =>{
-          this.datas = data
-          console.log(this.datas)
-          
+          this.datas = data      
           for (let index = 0; index < this.datas.length; index++) {
             this.datas[index].callback =  this.connect(index, this.datas[index]);
           }
@@ -60,12 +58,11 @@ export class DeviceListComponent implements OnInit, OnDestroy {
 
   connect(index: any, element: any):any {
     return this.webSocketAPI._connect(element.Topic, (val: any) => {
-      console.log(val)
       let dd = this.datas[index];
    if(val.ip != null){
     dd.devices = val;
    }else{
-
+    console.log(val);
     dd.devices2 = val;
     if(typeof(val.POWER1) === "string"  && val.POWER1 === "OFF"){
        dd.power=false
@@ -76,13 +73,13 @@ export class DeviceListComponent implements OnInit, OnDestroy {
         }
    }
    this.datas[index] = dd;
+   this.datas = this.datas;
     });
   }
 
   disconnect() {
     this.datas.forEach((ee: any) => {
       ee.callback.unsubscribe();
-      ee.callback = null
     });
   }
 

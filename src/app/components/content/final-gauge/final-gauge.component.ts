@@ -78,12 +78,12 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
     if(window.localStorage.getItem('device')!= undefined){
       let x:any = window.localStorage.getItem('device')
       this.d = JSON.parse(x)
-      console.log("eeeeeeee"+ JSON.stringify(this.d))
+
       this.dn = this.d.DeviceName;
       this.ip = this.d.IPAddress;
 
       this.webSocketAPI = new WebSocketAPI();
-
+      window.localStorage.removeItem('device');
 
       this.webSocketAPI.connecting(() => {
        this.subscriber = this.connect(this.d.Topic);
