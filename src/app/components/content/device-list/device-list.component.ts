@@ -97,6 +97,6 @@ export class DeviceListComponent implements OnInit, OnDestroy {
 
   goToGauge(data: any){
     window.localStorage.setItem('device', JSON.stringify(data))
-    this.router.navigate(['/gauge'])
+    this.router.navigate(['/chart'])
     }
 }

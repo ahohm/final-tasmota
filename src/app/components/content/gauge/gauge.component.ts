@@ -30,6 +30,9 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
     DHT11: {
       Temperature: '0',
     },
+    DS18B20: {
+      Temperature: '0',
+    },
     POWER1: '',
   };
 
@@ -228,14 +231,15 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     console.log(this.data.power);
     this.deviceSrvice
-      .changeState('TOGGLE')
+      .changeState(this.d.Topic,'TOGGLE')
       .pipe()
       .subscribe((data) => console.log(data));
   }
 
   ngOnInit() {
     this.webSocketAPI = new WebSocketAPI();
-      if(window.localStorage.getItem('device')!= undefined){
+    
+    if(window.localStorage.getItem('device')!= undefined){
       let x:any = window.localStorage.getItem('device')
       this.d = JSON.parse(x)
       console.log("eeeeeeee"+ JSON.stringify(this.d))
@@ -263,7 +267,7 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
             this.device.dn = val.dn;
             this.device.ip = val.ip;
           }else{
-            if(typeof(val.DHT11.Temperature) === "number"){
+            if(typeof(val.DHT11?.Temperature) === "number"){
               this.limit(val.DHT11.Temperature)
               this.data.DHT11.Temperature = val.DHT11.Temperature;
               this.myGauge.value(this.data.DHT11.Temperature);
@@ -271,7 +275,19 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
               if(this.data.DHT11.Temperature>this.max && this.data.power === true){
                 console.log("tooogle")
                 this.deviceSrvice
-                .changeState('TOGGLE')
+                .changeState(this.d.Topic,'TOGGLE')
+                .pipe()
+                .subscribe((data) => console.log("switch"+data));
+              }
+            }  if(typeof(val.DS18B20?.Temperature) === "number"){
+              this.limit(val.DS18B20.Temperature)
+              this.data.DS18B20.Temperature = val.DS18B20.Temperature;
+              this.myGauge?.value(this.data.DS18B20.Temperature);
+              
+              if(this.data.DS18B20.Temperature>this.max && this.data.power === true){
+                console.log("tooogle")
+                this.deviceSrvice
+                .changeState(this.d.Topic,'TOGGLE')
                 .pipe()
                 .subscribe((data) => console.log("switch"+data));
               }
@@ -287,7 +303,7 @@ export class GaugeComponent implements OnInit, AfterViewInit, OnDestroy {
     if(temp>this.max){
       console.log("tooogle")
       this.deviceSrvice
-      .changeState('TOGGLE')
+      .changeState(this.d.Topic,'TOGGLE')
       .pipe()
       .subscribe((data) => console.log(data));
     }

@@ -18,8 +18,8 @@ export class DeviceService {
 
   constructor(private http: HttpClient) { }
 
-  changeState(value: any): Observable<any> {
-    return this.http.post(AUTH_API+'/publish/' , {
+  changeState(topic:any, value: any): Observable<any> {
+    return this.http.post(AUTH_API+'/publish/'+topic , {
       value
     }, httpOptions);
   }

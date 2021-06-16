@@ -29,6 +29,8 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
   };
 
   temp: number = 10;
+  
+  max:number = 100 ;
 
   device: any = {
     power: false,
@@ -76,6 +78,8 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
       let x:any = window.localStorage.getItem('device')
       this.d = JSON.parse(x)
       console.log("eeeeeeee"+ JSON.stringify(this.d))
+      this.dn = this.d.DeviceName;
+      this.ip = this.d.IPAddress;
 
       this.webSocketAPI = new WebSocketAPI();
       this.connect(this.d.Topic);
@@ -97,9 +101,17 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
           this.dn = val.dn;
           this.ip = val.ip;
         }else{
-          this.needleValue = val.DHT11.Temperature;
-          this.options.arcDelimiters = [val.DHT11.Temperature];
-          this.bottomLabel = ''+val.DHT11.Temperature;
+
+          if(val.DHT11 !== undefined){
+            this.needleValue = val.DHT11.Temperature;
+            this.options.arcDelimiters = [val.DHT11.Temperature];
+            this.bottomLabel = ''+val.DHT11.Temperature;
+          } else if (val.DS18B20 !== undefined){
+            this.needleValue = val.DS18B20.Temperature;
+            this.options.arcDelimiters = [val.DS18B20.Temperature];
+            this.bottomLabel = ''+val.DS18B20.Temperature;
+          }
+          
         }
       }
 
@@ -169,7 +181,11 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
     }
     this.myNumberInput.val(event.args.value);
     console.log(event.args.value);
+    this.max = event.args.value;
+      this.limit(this.max, this.needleValue)  
   }
+
+
   onMouseDown(event: any): void {
     event.stopPropagation();
   }
@@ -189,8 +205,49 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
     }
     console.log(this.data.power);
     this.deviceSrvice
-      .changeState('TOGGLE')
+      .changeState(this.d.Topic, 'TOGGLE')
       .pipe()
       .subscribe((data) => console.log(data));
+  }
+
+  oldState = false;
+  newState = false;
+
+  oldState2 = false;
+  newState2 = false;
+
+  limit(max:number, temp: number){
+
+
+    if(temp>max && this.newState !== this.oldState){
+      console.log("tooogle")
+      this.deviceSrvice
+      .changeState(this.d.Topic,'TOGGLE')
+      .pipe()
+      .subscribe((data) => console.log(data));
+    }
+
+    if(temp<max && this.newState2 !== this.oldState2){
+      console.log("tooogle")
+      this.deviceSrvice
+      .changeState(this.d.Topic,'TOGGLE')
+      .pipe()
+      .subscribe((data) => console.log(data));
+    }
+
+    if(temp > max) {
+      if(this.oldState !== this.newState){
+        this.newState = this.oldState
+      }
+      this.newState2 = !this.oldState2
+    
+    } else {
+
+      if(this.oldState2 !== this.newState2){
+        this.newState2 = this.oldState2
+      }
+
+      this.newState = !this.oldState
+    } 
   }
 }
