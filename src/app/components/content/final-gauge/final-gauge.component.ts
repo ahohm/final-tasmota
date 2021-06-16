@@ -96,7 +96,11 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
         this.active = true;
       }else if(typeof(val.POWER1) === "string"  && val.POWER1 === "OFF"){
         this.active = false;
-      }else{
+      } if(typeof(val.POWER) === "string"  && val.POWER === "ON"){
+        this.active = true;
+      }else if(typeof(val.POWER) === "string"  && val.POWER === "OFF"){
+        this.active = false;
+      } else{
         if(typeof(val.dn) === "string"){
           this.dn = val.dn;
           this.ip = val.ip;
