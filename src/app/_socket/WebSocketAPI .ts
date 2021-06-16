@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { DeviceListComponent } from '../components/content/device-list/device-list.component';
 
 export class WebSocketAPI {
-    webSocketEndPoint: string = 'http://4ded17a0ad68.ngrok.io/websocket-example';
+    webSocketEndPoint: string = 'http://158.69.113.195:8080/websocket-example';
     topic: string = "/topic/";
     stompClient: any;
     
