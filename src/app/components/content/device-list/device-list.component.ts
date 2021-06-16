@@ -41,50 +41,49 @@ export class DeviceListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.webSocketAPI = new WebSocketAPI();
-    this.deviceService.getAllDevice().pipe().subscribe(
-      data =>{
-        this.datas = data
-        console.log(this.datas)
-        
-        for (let index = 0; index < this.datas.length; index++) {
-          this.datas[index].callback =  this.connect(index, this.datas[index]);
-        }
-      },err => {
-        console.log(err);
-      }) 
+    this.webSocketAPI.connecting(() => {
+      this.deviceService.getAllDevice().pipe().subscribe(
+        data =>{
+          this.datas = data
+          console.log(this.datas)
+          
+          for (let index = 0; index < this.datas.length; index++) {
+            this.datas[index].callback =  this.connect(index, this.datas[index]);
+          }
+        },err => {
+          console.log(err);
+        }) 
+    });
+
+   
   }
 
   connect(index: any, element: any):any {
     return this.webSocketAPI._connect(element.Topic, (val: any) => {
       console.log(val)
       let dd = this.datas[index];
-
    if(val.ip != null){
-      console.log("ip")
     dd.devices = val;
    }else{
-    console.log("POWER ON")
-    
+
+    dd.devices2 = val;
     if(typeof(val.POWER1) === "string"  && val.POWER1 === "OFF"){
-      console.log("POWER OFF")
        dd.power=false
         }else if(typeof(val.POWER1) === "string"  && val.POWER1 === "ON"){
-          console.log("POWER ON")
                     dd.power=true
         }else{
-          console.log("DEVICES")
           dd.devices2 = val;
         }
    }
    this.datas[index] = dd;
-   console.log("data :" + JSON.stringify(dd))
-
-    console.log("list of data :" + JSON.stringify(this.datas ))
     });
   }
 
   disconnect() {
-    this.webSocketAPI._disconnect();
+    this.datas.forEach((ee: any) => {
+      ee.callback.unsubscribe();
+      ee.callback = null
+    });
   }
 
   sendMessage() {

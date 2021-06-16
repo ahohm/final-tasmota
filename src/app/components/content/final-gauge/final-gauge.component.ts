@@ -54,6 +54,7 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
     needleStartValue: 0,
   };
 
+  subscriber: any;
   webSocketAPI!: WebSocketAPI;
 
   gaugeType = 'semi';
@@ -82,8 +83,11 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
       this.ip = this.d.IPAddress;
 
       this.webSocketAPI = new WebSocketAPI();
-      this.connect(this.d.Topic);
-  
+
+
+      this.webSocketAPI.connecting(() => {
+       this.subscriber = this.connect(this.d.Topic);
+      });
       }else{
       }
 
@@ -124,7 +128,8 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
   }
 
   disconnect() {
-    this.webSocketAPI._disconnect();
+    this.subscriber.unsubscribe();
+    this.subscriber = null
   }
 
 
@@ -226,7 +231,7 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
     if(temp>max && this.newState !== this.oldState){
       console.log("tooogle")
       this.deviceSrvice
-      .changeState(this.d.Topic,'TOGGLE')
+      .changeState(this.d.Topic,'ON')
       .pipe()
       .subscribe((data) => console.log(data));
     }
@@ -234,7 +239,7 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
     if(temp<max && this.newState2 !== this.oldState2){
       console.log("tooogle")
       this.deviceSrvice
-      .changeState(this.d.Topic,'TOGGLE')
+      .changeState(this.d.Topic,'OFF')
       .pipe()
       .subscribe((data) => console.log(data));
     }

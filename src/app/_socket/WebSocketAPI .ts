@@ -13,19 +13,24 @@ export class WebSocketAPI {
     constructor(){
         
     }
-    _connect(topic: any, callback: any):any {
+
+    connecting(callback: any) {
         console.log("Initialize WebSocket Connection");
+  
         let ws = new SockJS(this.webSocketEndPoint);
-        // TODO 
-        this.stompClient = Stomp.over(ws);
-        const _this = this;
-       return _this.stompClient.connect({}, function (frame: any) {
-            _this.stompClient.subscribe(_this.topic + topic, function (sdkEvent: any) {
-                
+          this.stompClient = Stomp.over(ws);
+         this.stompClient.connect({}, function (sdkEvent: any) {
+            callback()
+         })
+    }
+
+    _connect(topic: any, callback: any):any {
+
+     let _this = this
+       return this.stompClient.subscribe(this.topic + topic, function (sdkEvent: any) {
                 callback(_this.onMessageReceived(sdkEvent))
             });
             //_this.stompClient.reconnect_delay = 2000;
-        }, (err : any) => this.errorCallBack(topic, err));
     };
 
     _disconnect() {
