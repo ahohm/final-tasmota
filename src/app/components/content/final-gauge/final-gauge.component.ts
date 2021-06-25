@@ -219,29 +219,35 @@ export class FinalGaugeComponent implements OnInit, OnDestroy {
       .subscribe((data) => console.log(data));
   }
 
-  oldState = false;
+  oldState = true;
   newState = false;
 
-  oldState2 = false;
+  oldState2 = true;
   newState2 = false;
 
   limit(max:number, temp: number){
 
-
     if(temp>max && this.newState !== this.oldState){
       console.log("tooogle")
+      this.active = true;
+
       this.deviceSrvice
-      .changeState(this.d.Topic,'ON')
+      .changeState(this.d.Topic,'OFF')
       .pipe()
-      .subscribe((data) => console.log(data));
+      .subscribe((data) => {
+       
+      });
     }
 
     if(temp<max && this.newState2 !== this.oldState2){
       console.log("tooogle")
-      this.deviceSrvice
-      .changeState(this.d.Topic,'OFF')
+      this.active = false;
+        this.deviceSrvice
+      .changeState(this.d.Topic,'ON')
       .pipe()
-      .subscribe((data) => console.log(data));
+      .subscribe((data) => {
+        
+      });
     }
 
     if(temp > max) {
